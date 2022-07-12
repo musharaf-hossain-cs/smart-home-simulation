@@ -1,0 +1,244 @@
+
+Remote.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000012c  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000180  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  00000180  2**0
+                  CONTENTS, READONLY
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001b0  2**2
+                  CONTENTS, READONLY
+  4 .debug_aranges 00000058  00000000  00000000  000001ec  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000877  00000000  00000000  00000244  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000063d  00000000  00000000  00000abb  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000034d  00000000  00000000  000010f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000000a0  00000000  00000000  00001448  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000368  00000000  00000000  000014e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000001a7  00000000  00000000  00001850  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000048  00000000  00000000  000019f7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 82 00 	call	0x104	; 0x104 <main>
+  64:	0c 94 94 00 	jmp	0x128	; 0x128 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <USART_Init>:
+
+
+void USART_Init(void)
+{
+	//Set baud rate
+	UBRRL=(uint8_t)UBRRVAL;     //low byte
+  6c:	83 e3       	ldi	r24, 0x33	; 51
+  6e:	89 b9       	out	0x09, r24	; 9
+	UBRRH=(UBRRVAL>>8);   //high byte
+  70:	10 bc       	out	0x20, r1	; 32
+	//Set data frame format: asynchronous mode,no parity, 1 stop bit, 8 bit size
+	UCSRC=(1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|
+  72:	86 e8       	ldi	r24, 0x86	; 134
+  74:	80 bd       	out	0x20, r24	; 32
+	(0<<USBS)|(0<<UCSZ2)|(1<<UCSZ1)|(1<<UCSZ0);
+	//Enable Transmitter and Receiver and Interrupt on receive complete
+	UCSRB=(1<<TXEN);
+  76:	88 e0       	ldi	r24, 0x08	; 8
+  78:	8a b9       	out	0x0a, r24	; 10
+  7a:	08 95       	ret
+
+0000007c <USART_vSendByte>:
+}
+void USART_vSendByte(uint8_t u8Data)
+{
+	// Wait if a byte is being transmitted
+	while((UCSRA&(1<<UDRE)) == 0);
+  7c:	5d 9b       	sbis	0x0b, 5	; 11
+  7e:	fe cf       	rjmp	.-4      	; 0x7c <USART_vSendByte>
+	// Transmit data
+	UDR = u8Data;
+  80:	8c b9       	out	0x0c, r24	; 12
+  82:	08 95       	ret
+
+00000084 <Send_Packet>:
+}
+void Send_Packet(uint8_t addr, uint8_t cmd)
+{
+  84:	cf 93       	push	r28
+  86:	df 93       	push	r29
+  88:	d8 2f       	mov	r29, r24
+  8a:	c6 2f       	mov	r28, r22
+	USART_vSendByte(SYNC);//send synchro byte
+  8c:	8a ea       	ldi	r24, 0xAA	; 170
+  8e:	0e 94 3e 00 	call	0x7c	; 0x7c <USART_vSendByte>
+	USART_vSendByte(addr);//send receiver address
+  92:	8d 2f       	mov	r24, r29
+  94:	0e 94 3e 00 	call	0x7c	; 0x7c <USART_vSendByte>
+	USART_vSendByte(cmd);//send increment command
+  98:	8c 2f       	mov	r24, r28
+  9a:	0e 94 3e 00 	call	0x7c	; 0x7c <USART_vSendByte>
+	USART_vSendByte((addr+cmd));//send checksum
+  9e:	8d 2f       	mov	r24, r29
+  a0:	8c 0f       	add	r24, r28
+  a2:	0e 94 3e 00 	call	0x7c	; 0x7c <USART_vSendByte>
+}
+  a6:	df 91       	pop	r29
+  a8:	cf 91       	pop	r28
+  aa:	08 95       	ret
+
+000000ac <ShutDown>:
+
+
+void ShutDown(){
+	Send_Packet(RADDR, SHUTDOWN_SM);
+  ac:	60 e3       	ldi	r22, 0x30	; 48
+  ae:	84 e4       	ldi	r24, 0x44	; 68
+  b0:	0e 94 42 00 	call	0x84	; 0x84 <Send_Packet>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  b4:	87 ea       	ldi	r24, 0xA7	; 167
+  b6:	91 e6       	ldi	r25, 0x61	; 97
+  b8:	01 97       	sbiw	r24, 0x01	; 1
+  ba:	f1 f7       	brne	.-4      	; 0xb8 <ShutDown+0xc>
+  bc:	00 c0       	rjmp	.+0      	; 0xbe <ShutDown+0x12>
+  be:	00 00       	nop
+  c0:	08 95       	ret
+
+000000c2 <StartUp>:
+	_delay_ms(100);
+}
+
+void StartUp(){
+	Send_Packet(RADDR, START_SM);
+  c2:	64 e3       	ldi	r22, 0x34	; 52
+  c4:	84 e4       	ldi	r24, 0x44	; 68
+  c6:	0e 94 42 00 	call	0x84	; 0x84 <Send_Packet>
+  ca:	87 ea       	ldi	r24, 0xA7	; 167
+  cc:	91 e6       	ldi	r25, 0x61	; 97
+  ce:	01 97       	sbiw	r24, 0x01	; 1
+  d0:	f1 f7       	brne	.-4      	; 0xce <StartUp+0xc>
+  d2:	00 c0       	rjmp	.+0      	; 0xd4 <StartUp+0x12>
+  d4:	00 00       	nop
+  d6:	08 95       	ret
+
+000000d8 <Sleep_SM>:
+	_delay_ms(100);
+}
+
+void Sleep_SM(){
+	Send_Packet(RADDR, SLEEP_SM);
+  d8:	62 e3       	ldi	r22, 0x32	; 50
+  da:	84 e4       	ldi	r24, 0x44	; 68
+  dc:	0e 94 42 00 	call	0x84	; 0x84 <Send_Packet>
+  e0:	87 ea       	ldi	r24, 0xA7	; 167
+  e2:	91 e6       	ldi	r25, 0x61	; 97
+  e4:	01 97       	sbiw	r24, 0x01	; 1
+  e6:	f1 f7       	brne	.-4      	; 0xe4 <Sleep_SM+0xc>
+  e8:	00 c0       	rjmp	.+0      	; 0xea <Sleep_SM+0x12>
+  ea:	00 00       	nop
+  ec:	08 95       	ret
+
+000000ee <ShowStat>:
+	_delay_ms(100);
+}
+
+void ShowStat(){
+	Send_Packet(RADDR, STAT_SM);
+  ee:	66 e3       	ldi	r22, 0x36	; 54
+  f0:	84 e4       	ldi	r24, 0x44	; 68
+  f2:	0e 94 42 00 	call	0x84	; 0x84 <Send_Packet>
+  f6:	87 ea       	ldi	r24, 0xA7	; 167
+  f8:	91 e6       	ldi	r25, 0x61	; 97
+  fa:	01 97       	sbiw	r24, 0x01	; 1
+  fc:	f1 f7       	brne	.-4      	; 0xfa <ShowStat+0xc>
+  fe:	00 c0       	rjmp	.+0      	; 0x100 <ShowStat+0x12>
+ 100:	00 00       	nop
+ 102:	08 95       	ret
+
+00000104 <main>:
+	_delay_ms(100);
+}
+
+int main(void)
+{
+	DDRB = 0b00000000;
+ 104:	17 ba       	out	0x17, r1	; 23
+	USART_Init();
+ 106:	0e 94 36 00 	call	0x6c	; 0x6c <USART_Init>
+	
+	while(1)
+	{//endless transmission
+		char command = PINB;
+ 10a:	c6 b3       	in	r28, 0x16	; 22
+		if(command & 0x01){ // start
+ 10c:	c0 fd       	sbrc	r28, 0
+			StartUp();
+ 10e:	0e 94 61 00 	call	0xc2	; 0xc2 <StartUp>
+		}
+		if(command & 0x02){ // sleep
+ 112:	c1 fd       	sbrc	r28, 1
+			Sleep_SM();
+ 114:	0e 94 6c 00 	call	0xd8	; 0xd8 <Sleep_SM>
+		}
+		if(command & 0x04){ // shutdown
+ 118:	c2 fd       	sbrc	r28, 2
+			ShutDown();
+ 11a:	0e 94 56 00 	call	0xac	; 0xac <ShutDown>
+		}
+		if(command & 0x08){ // show stat
+ 11e:	c3 ff       	sbrs	r28, 3
+ 120:	f4 cf       	rjmp	.-24     	; 0x10a <main+0x6>
+			ShowStat();
+ 122:	0e 94 77 00 	call	0xee	; 0xee <ShowStat>
+ 126:	f1 cf       	rjmp	.-30     	; 0x10a <main+0x6>
+
+00000128 <_exit>:
+ 128:	f8 94       	cli
+
+0000012a <__stop_program>:
+ 12a:	ff cf       	rjmp	.-2      	; 0x12a <__stop_program>

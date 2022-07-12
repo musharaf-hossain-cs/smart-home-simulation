@@ -1,0 +1,55 @@
+*****************MQ2*********************
+Detects: LPG, Smoke, Alcohol, Propane, Hydrogen, Methane and Carbon Monoxide
+Reference: https://lastminuteengineers.com/mq2-gas-senser-arduino-tutorial/
+
+Detects: Combustible Gas, Smoke
+Reference: https://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ5/
+
+
+
+*****************MQ3************************
+Detects:  Alcohol, Ethanol
+Reference: https://www.waveshare.com/mq-3-gas-sensor.htm
+Reference2: https://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ5/
+
+
+
+*****************MQ4************************
+Detects: Methane (CNG)
+Reference: https://www.pololu.com/product/1633
+
+
+*****************MQ5************************
+Detects: Gas Leakage (H2, LPG, CH4, CO, Alcohol)
+Reference: https://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ5/
+
+
+
+*****************MQ9***************************
+Detects: CO, Coal Gas, Liquefied Gas
+Reference: https://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ5/
+
+
+
+***********************All*****************************
+MQ-2 - Methane, Butane, LPG, smoke    
+MQ-3 - Alcohol, Ethanol, smoke
+MQ-4 - Methane, CNG Gas
+MQ-5 - Natural gas, LPG
+MQ-6 - LPG, butane gas
+MQ-7 - Carbon Monoxide
+MQ-8 - Hydrogen Gas
+MQ-9 - Carbon Monoxide, flammable gasses
+
+Reference: https://robu.in/mq-series-gas-sensor/
+
+
+
+
+*************************Used**********************
+MQ2, MQ4, MQ9 -----> Detects flammable gasses. Gives alert
+MQ7 ---------------> Detects Carbon Monoxide (CO)
+MQ8 ---------------> Detects Hydrogen Gas (H2)
+MQ3 ---------------> Detects Alcohol Gases
+
+
